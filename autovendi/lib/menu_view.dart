@@ -145,6 +145,8 @@ Widget _getProduct(List<Product> products, BuildContext context,
                       ),
                       Text(
                         products[index].name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,

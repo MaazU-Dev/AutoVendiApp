@@ -43,7 +43,6 @@ class ProductViewModel {
 
     print("=====================================");
     print(snapshot.data);
-    print(Wishlist.fromSnapshot(snapshot));
     print("=====================================");
 
     Wishlist wishlist = Wishlist.fromSnapshot(snapshot);

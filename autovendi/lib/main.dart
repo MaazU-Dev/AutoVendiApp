@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
-        home: LoginScreen(),
+        home: MenuView(),
         debugShowCheckedModeBanner: false,
       ),
     );
