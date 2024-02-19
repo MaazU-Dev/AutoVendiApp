@@ -7,7 +7,7 @@ class Product {
   final String name;
   final String description;
   final String imageUrl;
-  final int price;
+   int price;
   int quantity = 1;
 
   Product(

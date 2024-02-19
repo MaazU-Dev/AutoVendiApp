@@ -72,7 +72,10 @@ class _CartViewState extends State<CartView> {
                     trailing: IconButton(
                       icon: Icon(Icons.remove_shopping_cart),
                       onPressed: () {
-                        // Implement removal from cart functionality
+                        _
+                        setState(() {
+                          wishlist.products.removeAt(index + 1); // Remove the product from the wishlist
+                        });
                       },
                     ),
                   ),
@@ -80,6 +83,7 @@ class _CartViewState extends State<CartView> {
               },
               itemCount: wishlist.products.length - 1, // Adjusted itemCount
             );
+
           } else {
             return const Center(
               child: CircularProgressIndicator(),

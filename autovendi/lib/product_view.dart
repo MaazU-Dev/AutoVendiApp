@@ -154,8 +154,8 @@ class _ProductViewState extends State<ProductView> {
                     CounterButton(
                         iconData: Icons.remove,
                         onPressed: () {
-                          _productViewModel.decrement();
-                          _productViewModel.priceMultiplier();
+                          _productViewModel.decrement(productProvider.product);
+                          _productViewModel.priceMultiplier(productProvider.product);
                         }),
                     StreamBuilder<int>(
                       stream: _productViewModel.outputCounterStream,
@@ -172,8 +172,8 @@ class _ProductViewState extends State<ProductView> {
                     CounterButton(
                         iconData: Icons.add,
                         onPressed: () {
-                          _productViewModel.increment();
-                          _productViewModel.priceMultiplier();
+                          _productViewModel.increment(productProvider.product);
+                          _productViewModel.priceMultiplier(productProvider.product);
                         }),
                     Expanded(
                       child: Padding(

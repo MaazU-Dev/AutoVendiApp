@@ -72,19 +72,87 @@ class ProductViewModel {
     return true;
   }
 
-  decrement() {
+  decrement(Product product) {
     if (counter <= 0) {
       counter = 1;
     } else {
       counter--;
     }
 
+    changeQuantity(counter, product);
     inputCounterStream.add(counter);
   }
 
-  increment() {
+  changeQuantity(int val, Product product) async {
+    DocumentSnapshot snapshot = await _firebaseFirestore
+        .collection("products")
+        .doc("cart")
+        .get();
+
+    print("==============Change Quantity==============");
+    print(snapshot['products']);
+    print("============Change Quantity===================");
+
+
+
+    Wishlist wishlist = Wishlist.fromSnapshot(snapshot);
+
+    for(int i = 0; i < wishlist.products.length; i++) {
+      if(wishlist.products[i].name == product.name) {
+        wishlist.products[i].quantity = val;
+      }
+    }
+
+
+
+    print("======== Updated Wishlist (Price) ======");
+    // print(updatedWishlist);
+    print(wishlist);
+
+    await _firebaseFirestore
+        .collection("products")
+        .doc("cart")
+        .update({'products': wishlist.toDocument()});
+
+  }
+
+  increment(Product product) {
     counter++;
+
+    changeQuantity(counter, product);
     inputCounterStream.add(counter);
+  }
+
+  changePrice(int price, Product product)async{
+    DocumentSnapshot snapshot = await _firebaseFirestore
+        .collection("products")
+        .doc("cart")
+        .get();
+
+    print("==============Change Price==============");
+    print(snapshot['products']);
+    print("============Change Price===================");
+
+
+
+    Wishlist wishlist = Wishlist.fromSnapshot(snapshot);
+
+    for(int i = 0; i < wishlist.products.length; i++) {
+      if(wishlist.products[i].name == product.name) {
+        wishlist.products[i].price = price;
+      }
+    }
+
+
+
+    print("======== Updated Wishlist (Price)======");
+    // print(updatedWishlist);
+    print(wishlist);
+
+    await _firebaseFirestore
+        .collection("products")
+        .doc("cart")
+        .update({'products': wishlist.toDocument()});
   }
 
   Sink get inputCounterStream => _counterStreamController.sink;
@@ -92,12 +160,16 @@ class ProductViewModel {
   Stream<int> get outputCounterStream =>
       _counterStreamController.stream.map((value) => _ifZeroOrLess(value));
 
-  priceMultiplier() {
+  priceMultiplier(Product product) {
     final newPrice = price * counter;
 
     if (counter > 0) {
+
+      changePrice(newPrice, product);
       inputPriceStream.add(newPrice);
     } else {
+      changePrice(price, product);
+
       inputPriceStream.add(price);
     }
   }
