@@ -78,7 +78,7 @@ class _CheckOutViewState extends State<CheckOutView> {
               GestureDetector(
                 onTap: (){
 
-                  
+
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.1,

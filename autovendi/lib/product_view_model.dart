@@ -25,7 +25,7 @@ class ProductViewModel {
     _priceStreamController.close();
   }
 
-  addToWishlist(Product product) async {
+  Future<bool> addToWishlist(Product product) async {
    /* await _firebaseFirestore.collection("products").doc("cart").update({
       'products': {
         'name': product.name,
@@ -41,11 +41,20 @@ class ProductViewModel {
         .doc("cart")
         .get();
 
-    print("=====================================");
-    print(snapshot.data);
-    print("=====================================");
+    print("==============PVM==============");
+    print(snapshot['products']);
+    print("============PVM===================");
+
+
 
     Wishlist wishlist = Wishlist.fromSnapshot(snapshot);
+
+    for(int i = 0; i < wishlist.products.length; i++) {
+      if(wishlist.products[i].name == product.name) {
+        return false;
+      }
+    }
+
 
     print("========== Wishlist(fromSnapshot)'s output in Rep Imp ==========");
 
@@ -59,6 +68,8 @@ class ProductViewModel {
         .collection("products")
         .doc("cart")
         .update({'products': wishlist.toDocument()});
+
+    return true;
   }
 
   decrement() {

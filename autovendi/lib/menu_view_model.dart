@@ -24,7 +24,7 @@ class MenuViewModel {
         .get();
 
     print("=====================================");
-    print(snapshot.data);
+    print(snapshot['products']);
     print(Wishlist.fromSnapshot(snapshot));
     print("=====================================");
 

@@ -86,7 +86,7 @@ class Wishlist extends Equatable {
 
   factory Wishlist.fromSnapshot(DocumentSnapshot snap) {
     return Wishlist(
-        products: (snap['products'] as List).map((product) {
+        products: (snap['products']['products'] as List).map((product) {
       print(
           "=========================================================================");
       print("Product from snapshot: $product");
