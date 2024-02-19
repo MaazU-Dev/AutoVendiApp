@@ -1,3 +1,4 @@
+import 'package:autovendi/check_out_view.dart';
 import 'package:autovendi/firebase_options.dart';
 import 'package:autovendi/locations_view.dart';
 import 'package:autovendi/menu_view.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
-        home: MenuView(),
+        // home: MenuView(),
+        home: const CheckOutView(),
         debugShowCheckedModeBanner: false,
       ),
     );
