@@ -1,5 +1,7 @@
 import 'package:autovendi/cart_view_model.dart';
 import 'package:autovendi/domain/model/model.dart';
+import 'package:autovendi/resources/color_manager.dart';
+import 'package:autovendi/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class CartView extends StatefulWidget {
@@ -15,7 +17,7 @@ class _CartViewState extends State<CartView> {
 
   @override
   void initState() {
-   _cartViewModel.getCart();
+    _cartViewModel.getCart();
     super.initState();
   }
 
@@ -41,12 +43,14 @@ class _CartViewState extends State<CartView> {
             wishlist = snapshot.data!;
             return ListView.builder(
               itemBuilder: (context, index) {
-                final product = wishlist.products[index + 1]; // Start from the second element
+                final product = wishlist
+                    .products[index + 1]; // Start from the second element
                 return Card(
                   elevation: 3,
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     title: Text(
                       product.name,
                       style: TextStyle(
@@ -71,11 +75,18 @@ class _CartViewState extends State<CartView> {
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.remove_shopping_cart),
-                      onPressed: () {
-                        _
-                        setState(() {
-                          wishlist.products.removeAt(index + 1); // Remove the product from the wishlist
-                        });
+                      onPressed: () async {
+                        bool checker =
+                            await _cartViewModel.deleteProduct(product);
+
+
+                        setState(() {});
+
+                        if (checker) {
+                          _showSnackBar(context, "Removed from cart");
+                        } else {
+                          _showSnackBar(context, "Not removed from cart");
+                        }
                       },
                     ),
                   ),
@@ -83,14 +94,40 @@ class _CartViewState extends State<CartView> {
               },
               itemCount: wishlist.products.length - 1, // Adjusted itemCount
             );
-
           } else {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
         },
+      ),
+    );
+  }
 
+  _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        content: Center(
+          child: Text(
+            message,
+            style: TextStyle(
+              color: ColorManager.white,
+              fontSize: AppSize.size18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 100,
+            right: 20,
+            left: 20),
+        duration: const Duration(seconds: 2),
+        dismissDirection: DismissDirection.down,
+        backgroundColor: ColorManager.grey2,
       ),
     );
   }

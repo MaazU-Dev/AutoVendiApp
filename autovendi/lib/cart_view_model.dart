@@ -11,8 +11,37 @@ class CartViewModel {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  void getCart() async {
+  Future<bool> deleteProduct(Product product)async{
+
+
+    DocumentSnapshot snapshot =
     await _firebaseFirestore.collection("products").doc("cart").get();
+
+    print("==============CVM==============");
+    print(snapshot['products']);
+    print("============CVM===================");
+
+    Wishlist wishlist = Wishlist.fromSnapshot(snapshot);
+
+    if(wishlist.products.length <= 1){
+      return false;
+    }
+
+    for(int i = 0; i < wishlist.products.length; i++){
+      if(wishlist.products[i].name == product.name){
+        wishlist.products.removeAt(i);
+      }
+    }
+
+    await _firebaseFirestore
+        .collection("products")
+        .doc("cart")
+        .update({'products': wishlist.toDocument()});
+
+    return true;
+  }
+
+  void getCart() async {
 
     DocumentSnapshot snapshot =
         await _firebaseFirestore.collection("products").doc("cart").get();
