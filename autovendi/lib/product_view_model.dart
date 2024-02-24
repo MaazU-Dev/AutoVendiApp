@@ -100,6 +100,10 @@ class ProductViewModel {
     for(int i = 0; i < wishlist.products.length; i++) {
       if(wishlist.products[i].name == product.name) {
         wishlist.products[i].quantity = val;
+        print("==========Updated Quantity===========");
+print(wishlist.products[i].quantity);
+        print("==========Updated Quantity===========");
+
       }
     }
 

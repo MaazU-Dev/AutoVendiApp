@@ -8,6 +8,9 @@ class CartViewModel {
   final StreamController _wishlistStreamController =
       StreamController<Wishlist>();
 
+  final StreamController _totalPriceStreamController =
+  StreamController<int>();
+
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -59,4 +62,10 @@ class CartViewModel {
 
   Stream<Wishlist> get outputWishlistStream =>
       _wishlistStreamController.stream.map((value) => value);
+
+  Sink get inputTPStream => _totalPriceStreamController.sink;
+
+  Stream<int> get outputTPStream =>
+      _totalPriceStreamController.stream.map((value) => value);
+
 }

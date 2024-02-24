@@ -2,6 +2,8 @@ import 'package:autovendi/menu_view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'domain/model/model.dart';
+
 class LocationView extends StatefulWidget {
   const LocationView({super.key});
 
@@ -10,11 +12,10 @@ class LocationView extends StatefulWidget {
 }
 
 class _LocationViewState extends State<LocationView> {
-  String location = 'no location selected';
+  LocationAxis locationAxis = LocationAxis(x: 0, y: 0, z: 0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: const Center(
           child: Text(
@@ -43,24 +44,24 @@ class _LocationViewState extends State<LocationView> {
                 } else {
                   return GridView.builder(
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, mainAxisSpacing: 12),
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, mainAxisSpacing: 12),
                       itemCount: snapshot.data!.snapshot.children.length,
                       padding: const EdgeInsets.all(2.0),
                       itemBuilder: (BuildContext context, int index) {
-                        String block = snapshot.data!.snapshot.children
+                        var area = snapshot.data!.snapshot.children
                             .elementAt(index)
-                            .value
-                            .toString();
+                            .key as String;
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: InkWell(
                             onTap: () {
-
                               setState(() {
-                                location = block;
+                                locationAxis = LocationAxis.fromJson(snapshot
+                                    .data!.snapshot.children
+                                    .elementAt(index)
+                                    .value as List<Object?>);
                               });
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -76,7 +77,7 @@ class _LocationViewState extends State<LocationView> {
                               ),
                               child: Center(
                                 child: Text(
-                                  block,
+                                  area,
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),
